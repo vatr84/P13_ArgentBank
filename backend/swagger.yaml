@@ -1,0 +1,520 @@
+swagger: "2.0"
+info:
+  title: Bank Argent API Documentation
+  description: Contains all available API endpoints of the project
+  version: "1.0.0"
+  termsOfService: "http://swagger.io/terms/"
+host: localhost:3001
+basePath: /api/v1
+schemes:
+  - http
+paths:
+  /user/login:
+    post:
+      tags:
+        - User Module
+      summary: Login
+      description: API for Login
+      parameters:
+        - in: body
+          name: body
+          description: Login Payload
+          required: true
+          schema:
+            $ref: "#/definitions/Login"
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Login Successfully
+          schema:
+            $ref: "#/definitions/LoginResponse"
+        "400":
+          description: Invalid Fields
+        "500":
+          description: Internal Server Error
+  /user/signup:
+    post:
+      tags:
+        - User Module
+      summary: Signup
+      description: API for Signup
+      parameters:
+        - in: body
+          name: body
+          description: Signup Payload
+          required: true
+          schema:
+            $ref: "#/definitions/User"
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Signup Successfully
+          schema:
+            $ref: "#/definitions/UserResponse"
+        "400":
+          description: Invalid Fields
+        "500":
+          description: Internal Server Error
+  /user/profile:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - User Module
+      summary: User Profile API
+      description: API for fetching a user profile
+      parameters:
+        - in: header
+          name: Authorization
+          description: Bearer JWT Token
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: User profile retrieved successully
+          schema:
+            $ref: "#/definitions/UserResponse"
+        "400":
+          description: Invalid Fields
+        "500":
+          description: Internal Server Error
+    put:
+      security:
+        - Bearer: []
+      tags:
+        - User Module
+      summary: User Profile API
+      description: API for updating a user profile
+      parameters:
+        - in: header
+          name: Authorization
+          description: Bearer JWT Token
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: Update user profile attributes
+          required: true
+          schema:
+            $ref: "#/definitions/UserProfile"
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: User profile retrieved successully
+          schema:
+            $ref: "#/definitions/UserResponse"
+        "400":
+          description: Invalid Fields
+        "500":
+          description: Internal Server Error
+  /accounts/{userId}:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Accounts Module
+      summary: All User Accounts
+      description: Retrieve all Accounts of a given User
+      parameters:
+        - in: header
+          name: Authorization
+          description: Bearer JWT Token
+          required: true
+          type: string
+        - in: path
+          name: userId
+          description: User ID
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: User Accounts Retrieved Successfully
+          schema:
+            $ref: "#/definitions/UserAccountsResponse"
+        "400":
+          description: Invalid Fields
+        "500":
+          description: Internal Server Error
+  /accounts/{userId}/{accountId}:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Accounts Module
+      summary: User Account
+      description: Retrieve all Accounts of a given User
+      parameters:
+        - in: header
+          name: Authorization
+          description: Bearer JWT Token
+          required: true
+          type: string
+        - in: path
+          name: userId
+          description: User ID
+          required: true
+          type: string
+        - in: path
+          name: accountId
+          description: Account ID
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: User Account Retrieved Successfully
+          schema:
+            $ref: "#/definitions/UserAccountResponse"
+        "400":
+          description: Invalid Fields
+        "404":
+          description: Not Found
+          schema:
+            $ref: "#/definitions/NotFoundResponse"
+        "500":
+          description: Internal Server Error
+  /transactions/{userId}:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Transactions Module
+      summary: All Transactions of an User
+      description: Retrieve all User ID based Transactions and grouped by account(s)
+      parameters:
+        - in: header
+          name: Authorization
+          description: Bearer JWT Token
+          required: true
+          type: string
+        - name: userId
+          in: path
+          required: true
+          type: string
+        - name: date
+          in: query
+          type: string
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: All User Transactions Retrieved Successfully
+          schema:
+            $ref: "#/definitions/UserTransactionsResponse"
+        "400":
+          description: Invalid Fields
+        "404":
+          description: Not Found
+          schema:
+            $ref: "#/definitions/NotFoundResponse"
+        "500":
+          description: Internal Server Error
+  /transactions/{accountId}/{transactionId}:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Transactions Module
+      summary: Account Transaction
+      description: Retrieve Transaction based on its related Account ID
+      parameters:
+        - in: header
+          name: Authorization
+          description: Bearer JWT Token
+          required: true
+          type: string
+        - name: accountId
+          in: path
+          required: true
+          type: string
+        - name: transactionId
+          in: path
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Transaction for a given Account Retrieved Successfully
+          schema:
+            $ref: "#/definitions/TransactionResponse"
+        "400":
+          description: Invalid Fields
+        "404":
+          description: Not Found
+          schema:
+            $ref: "#/definitions/NotFoundResponse"
+        "500":
+          description: Internal Server Error
+    put:
+      security:
+        - Bearer: []
+      tags:
+        - Transactions Module
+      summary: Informations of Transaction
+      description: Add, Modify & Delete the informations of a transaction
+      parameters:
+        - in: header
+          name: Authorization
+          description: Bearer JWT Token
+          required: true
+          type: string
+        - name: accountId
+          in: path
+          required: true
+          type: string
+        - name: transactionId
+          in: path
+          required: true
+          type: string
+        - name: transactionNewInfo
+          in: body
+          description: Create transaction with given information
+          required: true
+          schema:
+            $ref: "#/definitions/TransactionInfo"
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Transaction Information Updated Successfully
+          schema:
+            $ref: "#/definitions/TransactionResponse"
+        "400":
+          description: Invalid Fields
+        "500":
+          description: Internal Server Error
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+definitions:
+  Login:
+    properties:
+      email:
+        type: string
+        description: user email
+      password:
+        type: string
+        description: user password
+  User:
+    properties:
+      email:
+        type: string
+        format: email
+        description: user email
+      password:
+        type: string
+        format: password
+        description: user password
+      firstName:
+        type: string
+        description: user first name
+      lastName:
+        type: string
+        description: user last name
+  Account:
+    properties:
+      id:
+        type: number
+        example: A4567
+      userId:
+        type: string
+        example: 456
+      title:
+        type: string
+        description: Name of the account
+        example: Argent Bank Checking (x8349)
+      amount:
+        type: string
+        description: The current amount on the account
+        example: $2,082.79
+      description:
+        type: string
+        enum: [Available Balance, Current Balance]
+  Transaction:
+    properties:
+      id:
+        type: string
+        example: T456
+      userId:
+        type: string
+        example: 456
+      accountId:
+        type: number
+        example: A4567
+      date:
+        type: string
+        example: June 23th, 2024
+      description:
+        type: string
+        example: Golden Sun Bakery
+      amount:
+        type: string
+        example: $5.00
+      balance:
+        type: string
+        description: Remaining balance after deduising the current transaction
+        example: $2,000
+      type:
+        type: string
+        example: Electronic
+      category:
+        type: string
+        enum:
+          [Food, Bank fees, Savings, Travels, Entertainment, Transportations]
+        example: Food
+      notes:
+        type: string
+        description: Any comments the user wants to attach to the transaction
+        example: Favorite Bakery !
+  TransactionInfo:
+    properties:
+      category:
+        type: string
+        enum:
+          [Food, Bank fees, Savings, Travels, Entertainment, Transportations]
+        example: Food
+      notes:
+        type: string
+        description: Any comments the user wants to attach to the transaction
+        example: Favorite Bakery !
+  UserResponse:
+    type: object
+    properties:
+      status:
+        type: integer
+      message:
+        type: string
+      body:
+        type: object
+        properties:
+          id:
+            type: string
+          firstName:
+            type: string
+          lastName:
+            type: string
+          email:
+            type: string
+          createdAt:
+            type: string
+          updatedAt:
+            type: string
+  LoginResponse:
+    type: object
+    properties:
+      token:
+        type: string
+  UserProfile:
+    type: object
+    properties:
+      firstName:
+        type: string
+      lastName:
+        type: string
+  UserAccountsResponse:
+    type: object
+    properties:
+      status:
+        type: number
+        example: 200
+      message:
+        type: string
+      items:
+        type: array
+        items:
+          $ref: "#/definitions/Account"
+  UserAccountResponse:
+    type: object
+    properties:
+      status:
+        type: number
+        example: 200
+      message:
+        type: string
+      account:
+        $ref: "#/definitions/Account"
+  UserTransactionsResponse:
+    type: object
+    properties:
+      status:
+        type: number
+        example: 200
+      message:
+        type: string
+      items:
+        type: array
+        items:
+          type: object
+          properties:
+            accountId:
+              type: string
+              example: A456
+            date:
+              type: string
+              example: January 3rd, 2025
+            transactions:
+              type: array
+              items:
+                type: object
+                properties:
+                  transactionId:
+                    type: string
+                    example: T456
+                  description:
+                    type: string
+                    example: Golden Sun Bakery
+                  amount:
+                    type: string
+                    example: $5.00
+                  balance:
+                    type: string
+                    description: Remaining balance after deduising the current transaction
+                    example: $2,000
+                  type:
+                    type: string
+                    example: Electronic
+                  category:
+                    type: string
+                    enum:
+                      [
+                        Food,
+                        Bank fees,
+                        Savings,
+                        Travels,
+                        Entertainment,
+                        Transportations,
+                      ]
+                    example: Food
+                  notes:
+                    type: string
+                    description: Any comments the user wants to attach to the transaction
+                    example: Favorite Bakery !
+  TransactionResponse:
+    type: object
+    properties:
+      status:
+        type: number
+        example: 200
+      message:
+        type: string
+      transaction:
+        $ref: "#/definitions/Transaction"
+  NotFoundResponse:
+    type: object
+    properties:
+      status:
+        type: number
+        example: 404
+      message:
+        type: string
