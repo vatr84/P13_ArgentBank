@@ -1,8 +1,8 @@
 # P13 ArgentBank
 
-## Context du projet
+<img src ="frontend/src/assets/images/argentBank.png" title = "ArgentBank" alt = "ArgentBank" />
 
-## Compétences évaluées
+## Objectifs
 
 - S'authentifier à une API
 - Implémenter un gestionnaire d'état dans une application React
@@ -11,10 +11,17 @@
 
 ## Technologies utilisées
 
+<p align="center">
+  <a href="https://skillicons.dev">
+    <img src="https://skillicons.dev/icons?i=react,vite,github,html,js,nodejs,vscode" />
+  </a>
+</p>
+
 - [React](https://react.dev/)
-- [React Router](https://reactrouter.com/en/main)
-- [Redux Toolkit](https://redux-toolkit.js.org/)
 - [ViteJS](https://vitejs.dev/)
+- [React Router](https://reactrouter.com/en/main)
+- [React Redux](https://react-redux.js.org/)
+- [Redux Toolkit](https://redux-toolkit.js.org/)
 - [Swagger](https://swagger.io/)
 
 ## Installation
