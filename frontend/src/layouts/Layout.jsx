@@ -1,6 +1,6 @@
 // Components
-//import Header from "../components/Header/Header";
-//import Footer from "../components/Footer/Footer";
+import Header from "../components/Header/Header";
+import Footer from "../components/Footer/Footer";
 
 // Styling
 import styles from "./Layout.module.css";
