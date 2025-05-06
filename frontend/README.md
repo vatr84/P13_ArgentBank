@@ -1,18 +1,21 @@
 # P13 ArgentBank
 
-## Context du projet
+## Frontend
 
-## Compétences évaluées
+1. Accédez au dossier frontend :
 
-- S'authentifier à une API
-- Implémenter un gestionnaire d'état dans une application React
-- Intéragir avec une API
-- Modéliser une API
+```
+cd frontend
+```
 
-## Technologies utilisées
+2. Installez les dépendances :
 
-- [React](https://react.dev/)
-- [React Router](https://reactrouter.com/en/main)
-- [Redux Toolkit](https://redux-toolkit.js.org/)
-- [ViteJS](https://vitejs.dev/)
-- [Swagger](https://swagger.io/)
+```
+npm install
+```
+
+3. Démarrez l'application :
+
+```
+npm run dev
+```
